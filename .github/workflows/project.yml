@@ -7,11 +7,20 @@ jobs:
   manage-issues:
     runs-on: ubuntu-latest
     steps:
-      - uses: theobernardon/theo-flutter/actions/manage-issues@main
-        with:
-          project-name: "CI/CD Workflow" # 🔁 Remplace par le nom exact de ton projet GitHub
-          column-open: "In Progress"
-          column-test: "In Test"
-          column-close: "Done"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Install dependencies
+      run: |
+        cd actions/manage-issues
+        npm install
+        
+    - name: Run manage-issues action
+      uses: theobernardon/theo-flutter/actions/manage-issues@main
+      with:
+        project-name: "CI/CD Workflow" # 🔁 Remplace par le nom exact de ton projet GitHub
+        column-open: "In Progress"
+        column-test: "In Test"
+        column-close: "Done"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
