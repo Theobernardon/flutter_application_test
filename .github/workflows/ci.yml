@@ -1,0 +1,65 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release/**
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release/**
+
+jobs:
+  flutter-ci:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Format code
+        run: flutter format --set-exit-if-changed .
+
+      - name: Analyze code
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build for Windows
+        if: matrix.os == 'windows-latest'
+        run: flutter build windows
+
+      - name: Archive Windows build artifacts
+        if: matrix.os == 'windows-latest' && success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-build-windows
+          path: build/windows/runner/Release/
+
+      - name: Build for Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: flutter build linux
+
+      - name: Archive Linux build artifacts
+        if: matrix.os == 'ubuntu-latest' && success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-build-linux
+          path: build/linux/x64/release/bundle/
+
+

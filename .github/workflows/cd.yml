@@ -1,0 +1,74 @@
+name: Flutter CD
+
+on:
+  push:
+    tags:
+      - 'v*.*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+      - run: flutter pub get
+      - run: flutter build windows
+      - name: Archive Windows Build
+        run: |
+          mkdir dist
+          Copy-Item -Recurse -Path build/windows/runner/Release/* -Destination dist
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-windows
+          path: dist/
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+      - run: flutter pub get
+      - run: flutter build linux
+      - name: Archive Linux Build
+        run: |
+          mkdir dist
+          cp -r build/linux/x64/release/bundle/* dist/
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-linux
+          path: dist/
+
+  release:
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Windows Build
+        uses: actions/download-artifact@v4
+        with:
+          name: flutter-windows
+          path: artifacts/flutter-windows
+
+      - name: Download Linux Build
+        uses: actions/download-artifact@v4
+        with:
+          name: flutter-linux
+          path: artifacts/flutter-linux
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          files: |
+            artifacts/flutter-windows/**
+            artifacts/flutter-linux/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
