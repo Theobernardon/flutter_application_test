@@ -9,7 +9,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      
+    - name: Debug workspace
+      run: ls -R
     - name: Install dependencies
       run: |
         cd actions/manage-issues
