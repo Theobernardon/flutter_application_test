@@ -1,0 +1,45 @@
+name: "New sub feature (persona)"
+description: "Décrire une fonctionnalité en fonction d’un besoin utilisateur"
+title: "[SubFeature] - "
+labels: ["subfeature", "feature"]
+assignees: Theobernardon
+projects: CI/CD Workflow
+body:
+  - type: dropdown
+    id: persona
+    attributes:
+      label: 🧑 Persona
+      description: Choisis un persona parmi ceux enregistrés
+      options:
+        - persona1 – description de persona1
+        - persona2 – description de persona2
+        - persona3 – description de persona3
+        - persona4 – description de persona4
+        - persona5 – description de persona5
+      default: 0
+  
+  - type: textarea
+    id: besoin
+    attributes:
+      label: 🎯 Veut... pour...
+      description: "[Persona] veut... pour..."
+      placeholder: "persona1 veut ... pour..."
+  
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 📌 Critères d’acceptation
+      description: Que doit faire la fonctionnalité au minimum pour être considérée comme terminée ?
+      placeholder: |
+        - Critères d’acceptation1
+        - Critères d’acceptation2
+        - ...
+  
+  - type: textarea
+    id: test
+    attributes:
+      label: 🧪 Scénarios de test utilisateur (optionnel)
+      placeholder: |
+        - test1
+        - test2
+        - ...

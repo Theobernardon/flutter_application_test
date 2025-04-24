@@ -1,0 +1,10 @@
+name: 📦 Release Flutter
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    uses: theobernardon/theo-flutter/.github/workflows/release.yml@main

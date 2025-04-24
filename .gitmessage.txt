@@ -1,0 +1,17 @@
+# ==== 🧠 Gabarit de message de commit standardisé ====
+# Action (open / update / test / close) suivie de l'issue : (ou skipcheck)
+action #12
+# Message de commit :
+Explication du travail en quelques mots
+
+# -----------------------------------------------------
+# Rappel des options disponibles :
+# - open  → passe l'issue dans In Progress
+# - update → ne fait rien (juste un commit)
+# - test  → passe l'issue dans In Test
+# - close → passe l'issue dans Done
+#
+# Les lignes commençant par # seront ignorées
+# -----------------------------------------------------
+# Pour appliquer le git message à ce projet:
+# run: git config commit.template .gitmessage.txt
