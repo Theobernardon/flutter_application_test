@@ -1,5 +1,7 @@
 name: Flutter CI
 
+# Déclenche le workflow sur les événements push et pull_request
+# pour les branches spécifiées : main, develop et release/**
 on:
   push:
     branches:
@@ -14,33 +16,41 @@ on:
 
 jobs:
   flutter-ci:
+    # Définit une matrice pour exécuter le job sur plusieurs systèmes d'exploitation
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
 
     steps:
+      # Étape pour récupérer le code source du dépôt
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Étape pour configurer Flutter avec une version spécifique
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.29.2
 
+      # Étape pour installer les dépendances Flutter
       - name: Install dependencies
         run: flutter pub get
 
+      # Étape pour analyser le code Flutter
       - name: Analyze code
         run: flutter analyze
 
+      # Étape pour exécuter les tests Flutter
       - name: Run tests
         run: flutter test
 
+      # Étape pour construire l'application pour Windows
       - name: Build for Windows
         if: matrix.os == 'windows-latest'
         run: flutter build windows
 
+      # Étape pour archiver les artefacts de la build Windows
       - name: Archive Windows build artifacts
         if: matrix.os == 'windows-latest' && success()
         uses: actions/upload-artifact@v4
@@ -48,15 +58,20 @@ jobs:
           name: flutter-build-windows
           path: build/windows/runner/Release/
 
+      # Étape pour installer les dépendances nécessaires pour Linux
+      - name: Installer les dépendances Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev libgio2.0-dev
+
+      # Étape pour construire l'application pour Linux
       - name: Build for Linux
         if: matrix.os == 'ubuntu-latest'
         run: flutter build linux
 
+      # Étape pour archiver les artefacts de la build Linux
       - name: Archive Linux build artifacts
         if: matrix.os == 'ubuntu-latest' && success()
         uses: actions/upload-artifact@v4
         with:
           name: flutter-build-linux
           path: build/linux/x64/release/bundle/
-
-
