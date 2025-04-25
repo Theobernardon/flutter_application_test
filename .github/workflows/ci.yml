@@ -61,7 +61,7 @@ jobs:
       # Étape pour installer les dépendances nécessaires pour Linux
       - name: Installer les dépendances Linux
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev libgio2.0-dev
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev
 
       # Étape pour construire l'application pour Linux
       - name: Build for Linux
