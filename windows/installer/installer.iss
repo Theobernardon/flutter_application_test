@@ -5,6 +5,7 @@
 #define MyAppVersion "1.5"
 #define MyAppPublisher "Bernardon Théo"
 #define MyAppExeName "flutter_application_test.exe"
+#define MyAppDir "D:\a\flutter_application_test\flutter_application_test"
 
 [Setup]
 ; NOTE : La valeur de l'AppId identifie de manière unique cette application. N'utilisez pas la même valeur AppId dans les programmes d'installation d'autres applications.
@@ -24,7 +25,7 @@ ArchitecturesAllowed=x64compatible
 ; la vue 64 bits du registre.
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-LicenseFile={autopf}\LICENCE
+LicenseFile={MyAppDir}\LICENCE
 ; Supprimez la ligne suivante pour exécuter l'installation en mode administratif (installation pour tous les utilisateurs).
 PrivilegesRequired=lowest
 OutputDir=installer/output
@@ -42,7 +43,7 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{autopf}\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
+Source: "{MyAppDir}\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 ; NOTE : N'utilisez pas "Flags : ignoreversion" sur les fichiers partagés du système.
 
 [Icons]
