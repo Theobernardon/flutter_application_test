@@ -2,7 +2,7 @@
 ; VOIR LA DOCUMENTATION POUR PLUS DE DÉTAILS SUR LA CRÉATION DE FICHIERS SCRIPT D'INSTALLATION INNO !
 
 #define MyAppName "Mon app"
-#define MyAppVersion GetDefine('MyAppVersion', 'test')
+#define MyAppVersion 'test'
 #define MyAppPublisher "Bernardon Théo"
 #define MyAppExeName "flutter_application_test.exe"
 
