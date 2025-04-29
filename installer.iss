@@ -24,7 +24,7 @@ ArchitecturesAllowed=x64compatible
 ; la vue 64 bits du registre.
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-LicenseFile={autopf}\LICENCE
+LicenseFile=LICENCE
 ; Supprimez la ligne suivante pour exécuter l'installation en mode administratif (installation pour tous les utilisateurs).
 PrivilegesRequired=lowest
 OutputDir=installer/output
