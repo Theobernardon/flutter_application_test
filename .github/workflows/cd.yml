@@ -55,7 +55,7 @@ jobs:
       - name: Create Installer with Inno Setup
         if: matrix.os == 'windows-latest' && success()
         run: |
-          ISCC windows/installer/installer.iss
+          ISCC installer.iss
         # Assure-toi que ton fichier .iss soit à l'endroit indiqué (par exemple dans un dossier 'installer/')
         # ISCC est la commande CLI du compilateur Inno Setup.
 
