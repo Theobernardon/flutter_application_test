@@ -121,4 +121,4 @@ jobs:
             artifacts/flutter-build-windows/**
             artifacts/flutter-build-linux/**
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
