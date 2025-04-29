@@ -4,48 +4,90 @@ on:
   push:
     tags:
       - 'v*.*'
+  workflow_dispatch:
+  # Permet de déclencher manuellement le workflow depuis l'interface GitHub
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  builds:
+    # Définit une matrice pour exécuter le job sur plusieurs systèmes d'exploitation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      # 1️⃣ - Cloner ton code source
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ - Installer Flutter 3.29.2 précisément, avec cache automatique
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.29.2
-      - run: flutter pub get
-      - run: flutter build windows
-      - name: Archive Windows Build
-        run: |
-          mkdir dist
-          Copy-Item -Recurse -Path build/windows/runner/Release/* -Destination dist
-      - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: flutter-windows
-          path: dist/
+          cache: true  # Active le cache pub + flutter automatiquement
 
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: stable
-      - run: flutter pub get
-      - run: flutter build linux
-      - name: Archive Linux Build
+      # 3️⃣ - Récupérer les dépendances Dart/Flutter
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4️⃣ - Vérifier que le code est propre (analyse statique)
+      - name: Analyze code
+        run: flutter analyze
+
+      # 5️⃣ - Lancer les tests unitaires
+      - name: Run tests
+        run: flutter test
+
+      #### Windows Build Steps ####
+      # 6️⃣ - Builder ton application Windows
+      - name: Build Flutter Windows App
+        if: matrix.os == 'windows-latest'
+        run: flutter build windows --release
+
+      # 7️⃣ - Installer Inno Setup pour créer un installeur EXE
+      - name: Install Inno Setup
+        if: matrix.os == 'windows-latest'
+        run: choco install innosetup -y
+        # Chocolatey est installé sur les runners GitHub Windows, donc "choco" fonctionne direct
+
+      # 8️⃣ - Compiler ton script Inno Setup (.iss) pour générer l'installeur
+      - name: Create Installer with Inno Setup
+        if: matrix.os == 'windows-latest' && success()
         run: |
-          mkdir dist
-          cp -r build/linux/x64/release/bundle/* dist/
-      - name: Upload Linux Artifact
+          ISCC windows/installer/installer.iss
+        # Assure-toi que ton fichier .iss soit à l'endroit indiqué (par exemple dans un dossier 'installer/')
+        # ISCC est la commande CLI du compilateur Inno Setup.
+
+      # 8️⃣ - Archiver les artefacts de la build Linux
+      - name: Archive Linux build artifacts
+        if: matrix.os == 'windows-latest' && success()
         uses: actions/upload-artifact@v4
         with:
-          name: flutter-linux
-          path: dist/
+          name: flutter-build-windows
+          path: installer/output/SetupMonApp.exe
+
+      #### Linux Build Steps ####
+      # 6️⃣ - Installer les dépendances nécessaires pour Linux
+      - name: Installer les dépendances Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev
+
+      # 7️⃣ - Builder ton application Linux
+      - name: Build for Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: flutter build linux --release
+
+      # 8️⃣ - Archiver les artefacts de la build Linux
+      - name: Archive Linux build artifacts
+        if: matrix.os == 'ubuntu-latest' && success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-build-linux
+          path: build/linux/x64/release/bundle/
 
   release:
-    needs: [build-windows, build-linux]
+    needs: builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,14 +95,14 @@ jobs:
       - name: Download Windows Build
         uses: actions/download-artifact@v4
         with:
-          name: flutter-windows
-          path: artifacts/flutter-windows
+          name: flutter-build-windows
+          path: artifacts/flutter-build-windows
 
       - name: Download Linux Build
         uses: actions/download-artifact@v4
         with:
-          name: flutter-linux
-          path: artifacts/flutter-linux
+          name: flutter-build-linux
+          path: artifacts/flutter-build-linux
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -68,7 +110,7 @@ jobs:
           name: Release ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           files: |
-            artifacts/flutter-windows/**
-            artifacts/flutter-linux/**
+            artifacts/flutter-build-windows/**
+            artifacts/flutter-build-linux/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
