@@ -52,10 +52,18 @@ jobs:
         # Chocolatey est installé sur les runners GitHub Windows, donc "choco" fonctionne direct
 
       # 8️⃣ - Compiler ton script Inno Setup (.iss) pour générer l'installeur
+      ## Sur une activation manuelle :
       - name: Create Installer with Inno Setup
-        if: matrix.os == 'windows-latest' && success()
+        if: matrix.os == 'windows-latest' && success() && github.ref_type != 'tag'
         run: |
           ISCC installer.iss
+        # Assure-toi que ton fichier .iss soit à l'endroit indiqué (par exemple dans un dossier 'installer/')
+        # ISCC est la commande CLI du compilateur Inno Setup.
+      ## Sur une activation de tag :
+      - name: Create Installer with Inno Setup
+        if: matrix.os == 'windows-latest' && success() && github.ref_type == 'tag'
+        run: |
+          ISCC /DMyAppVersion=${{ github.ref_name }} installer.iss
         # Assure-toi que ton fichier .iss soit à l'endroit indiqué (par exemple dans un dossier 'installer/')
         # ISCC est la commande CLI du compilateur Inno Setup.
 
