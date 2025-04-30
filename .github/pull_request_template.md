@@ -4,8 +4,7 @@ Compléter les champs suivants avant d'accepter la PR :
 
 ## 🧠 Objet de la PR
 
-- [ ] J’ai suivi le format de commit (`open|test|close #XX`)
-- [ ] Cette PR correspond à une issue existante : #__
+- [ ] Cette PR correspond à une issue existante : #XX
 
 ## 🔧 Validation des branches concernées
 
@@ -14,9 +13,8 @@ Compléter les champs suivants avant d'accepter la PR :
 
 ## 🧪 CI/CD
 
-- [ ] Les tests (`flutter test`) sont au vert
-- [ ] Le build est vert (Android/Web/etc. si applicable)
-- [ ] Le format `build.yml` est à jour si une release est prévue
+- [ ] Les tests (`flutter test`) sont OK
+- [ ] Le ou les builds sont OK
 
 ---
 
