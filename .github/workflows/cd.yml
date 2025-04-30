@@ -82,17 +82,23 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev
 
       # 7️⃣ - Builder ton application Linux
-      - name: Build for Linux
+      - name: Build pour Linux
         if: matrix.os == 'ubuntu-latest'
         run: flutter build linux --release
 
       # 8️⃣ - Archiver les artefacts de la build Linux
-      - name: Archive Linux build artifacts
+      - name: Archive Linux bundle into tar.gz
+        if: matrix.os == 'ubuntu-latest' && success()
+        run: |
+          tar -czf flutter-linux.tar.gz -C build/linux/x64/release/bundle .
+
+      # 9️⃣ - Télécharger l'artefact de construction Linux
+      - name: Télécharger l'artefact Linux compressé
         if: matrix.os == 'ubuntu-latest' && success()
         uses: actions/upload-artifact@v4
         with:
           name: flutter-build-linux
-          path: build/linux/x64/release/bundle/
+          path: flutter-linux.tar.gz
 
   release:
     needs: builds
