@@ -4,7 +4,7 @@ Compléter les champs suivants avant d'accepter la PR :
 
 ## 🧠 Objet de la PR
 
-- [ ] Cette PR correspond à une issue existante : #`XX`
+- [ ] Cette PR correspond à une issue existante : #XX
 
 ## 🔧 Validation des branches concernées
 
