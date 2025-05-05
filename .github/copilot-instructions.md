@@ -1,9 +1,9 @@
-Rédige selon le template suivant en remplaçant ce qu'il y a entre {description}
+Rédige selon le template suivant en remplaçant ce qu'il y a entre {description} Par les informations issues de la pull request
 
-# **Description**
+# **Template:**
 ## **Description**  
 
-- *{type de travaille: Nouvelle fonctionnalité, Correction de bug, ...}*
+- *{type de travaille: Nouvelle fonctionnalité, Correction de bug, Documentation, ...}*
 
 {Décris les changements apportés par cette PR.}
 
