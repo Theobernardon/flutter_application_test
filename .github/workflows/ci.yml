@@ -43,19 +43,17 @@ jobs:
   # Puis si l'analyse et les tests sont OK on peut build les applications pour chaque systèmes d'exploitation
   Builds:
     needs: Analyse-et-tests
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         platforms: [windows, linux] # Récupère la liste des plateformes à builder
         include:
-          - os: windows-latest
-            platform: windows
-          - path: build\windows\x64\runner\Release\
-            platform: windows
-          - os: ubuntu-latest
-            platform: linux
-          - path: build/linux/x64/release/bundle/
-            platform: linux
+          - platforms: windows
+            os: windows-latest
+            path: build\windows\x64\runner\Release\
+          - platforms: linux
+            os: ubuntu-latest
+            path: build/linux/x64/release/bundle/
+    runs-on: ${{ matrix.os }}
 
     steps:
       # 1️⃣ - Cloner ton code source
