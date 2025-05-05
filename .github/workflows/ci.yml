@@ -78,13 +78,13 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev
 
       # 5️⃣ - Builder ton application pour la plateforme spécifiée
-      - name: Build for ${{ matrix.platform }}
-        run: flutter build ${{ matrix.platform }}
+      - name: Build for ${{ matrix.platforms }}
+        run: flutter build ${{ matrix.platforms }}
 
       # 6️⃣ - Archiver les artefacts de la build pour la plateforme spécifiée
-      - name: Archive ${{ matrix.platform }} build artifacts
+      - name: Archive ${{ matrix.platforms }} build artifacts
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: flutter-build-${{ matrix.platform }}
+          name: flutter-build-${{ matrix.platforms }}
           path: ${{ matrix.path }}
