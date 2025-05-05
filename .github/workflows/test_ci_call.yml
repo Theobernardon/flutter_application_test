@@ -13,7 +13,7 @@ on:
 jobs:
   # Dans un premier temps on fait l'analyse du code et les tests unitaires
   Analyse-et-tests:
-    uses: Theobernardon/theo-flutter/.github/workflows/test-flutter.yml@main
+    uses: Theobernardon/theo-flutter/.github/workflows/test-flutter.yml@test
 
   Builds:
     needs: Analyse-et-tests
