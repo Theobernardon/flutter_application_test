@@ -48,12 +48,14 @@ jobs:
       matrix:
         platforms: [windows, linux] # Récupère la liste des plateformes à builder
         include:
-          - platform: windows
-            os: windows-latest
-            path: build\windows\x64\runner\Release\
-          - platform: linux
-            os: ubuntu-latest
-            path: build/linux/x64/release/bundle/
+          - os: windows-latest
+            platform: windows
+          - path: build\windows\x64\runner\Release\
+            platform: windows
+          - os: ubuntu-latest
+            platform: linux
+          - path: build/linux/x64/release/bundle/
+            platform: linux
 
     steps:
       # 1️⃣ - Cloner ton code source
