@@ -1,14 +1,15 @@
-Rédige selon le template suivant en remplaçant ce qu'il y a entre {} le tout en français
+Rédige selon le template suivant en remplaçant ce qu'il y a entre {description}
 
+# **Description**
 ## **Description**  
 
-- *{Nouvelle fonctionnalité, Correction de bug, ...}*
+- *{type de travaille: Nouvelle fonctionnalité, Correction de bug, ...}*
 
 {Décris les changements apportés par cette PR.}
 
 ## **Tâches associées**
 
-{Référence les issues ou tickets liés (ex. : Closes #123).}
+Close #{n° issue et le la branche feature merger}
 
 ## **Checklist**
 
