@@ -1,12 +1,8 @@
 name: Flutter CI
 
-# Déclenche le workflow sur les événements push et pull_request
-# pour les branches spécifiées : main, develop et release/**
+# Déclenche le workflow sur les pull_request
+# pour les branches spécifiées : main, dev** et release/**
 on:
-  push:
-    branches:
-      - dev**
-      - release/**
   pull_request:
     branches:
       - main
@@ -15,6 +11,7 @@ on:
   workflow_dispatch: # Tu peux aussi le lancer manuellement depuis l'interface GitHub
 
 jobs:
+  # Dans un premier temps on fait l'analyse du code et les tests unitaires
   Analyse-et-tests:
     # Définit les systèmes d'exploitation sur lesquels exécuter le job
     runs-on: ubuntu-latest
@@ -42,6 +39,7 @@ jobs:
       - name: Run tests
         run: flutter test
   
+  # Puis si l'analyse et les tests sont OK on peut build les applications pour chaque systèmes d'exploitation
   Builds:
     needs: Analyse-et-tests
     # Définit une matrice pour exécuter le job sur plusieurs systèmes d'exploitation
