@@ -5,23 +5,19 @@ name: Flutter CI
 on:
   push:
     branches:
-      - develop
+      - dev**
       - release/**
   pull_request:
     branches:
       - main
-      - develop
+      - dev**
       - release/**
   workflow_dispatch: # Tu peux aussi le lancer manuellement depuis l'interface GitHub
 
 jobs:
-  flutter-ci:
-    # Définit une matrice pour exécuter le job sur plusieurs systèmes d'exploitation
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
+  Analyse-et-tests:
+    # Définit les systèmes d'exploitation sur lesquels exécuter le job
+    runs-on: ubuntu-latest
     steps:
       # 1️⃣ - Cloner ton code source
       - name: Checkout code
@@ -45,13 +41,36 @@ jobs:
       # 5️⃣ - Lancer les tests unitaires
       - name: Run tests
         run: flutter test
+  
+  builds:
+    # Définit une matrice pour exécuter le job sur plusieurs systèmes d'exploitation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
 
-      # 6️⃣ - Builder ton application Windows
+    steps:
+      # 1️⃣ - Cloner ton code source
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ - Installer Flutter 3.29.2 précisément, avec cache automatique
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.2
+          cache: true  # Active le cache pub + flutter automatiquement
+
+      # 3️⃣ - Récupérer les dépendances Dart/Flutter
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4️⃣ - Builder ton application Windows
       - name: Build for Windows
         if: matrix.os == 'windows-latest'
         run: flutter build windows
 
-      # 7️⃣ - Archiver les artefacts de la build Windows
+      # 5️⃣ - Archiver les artefacts de la build Windows
       - name: Archive Windows build artifacts
         if: matrix.os == 'windows-latest' && success()
         uses: actions/upload-artifact@v4
@@ -59,17 +78,17 @@ jobs:
           name: flutter-build-windows
           path: build\windows\x64\runner\Release\
 
-      # 6️⃣ - Installer les dépendances nécessaires pour Linux
+      # 4️⃣ - Installer les dépendances nécessaires pour Linux
       - name: Installer les dépendances Linux
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libglib2.0-dev
 
-      # 7️⃣ - Builder ton application Linux
+      # 5️⃣ - Builder ton application Linux
       - name: Build for Linux
         if: matrix.os == 'ubuntu-latest'
         run: flutter build linux
 
-      # 8️⃣ - Archiver les artefacts de la build Linux
+      # 6️⃣ - Archiver les artefacts de la build Linux
       - name: Archive Linux build artifacts
         if: matrix.os == 'ubuntu-latest' && success()
         uses: actions/upload-artifact@v4
