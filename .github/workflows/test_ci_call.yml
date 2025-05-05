@@ -16,6 +16,7 @@ jobs:
     uses: Theobernardon/theo-flutter/.github/workflows/test-flutter.yml@main
 
   Builds:
+    needs: Analyse-et-tests
     uses: Theobernardon/theo-flutter/.github/workflows/builds.yml@test
     with:
       # Liste des plateformes à builder
