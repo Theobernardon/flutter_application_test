@@ -1,4 +1,4 @@
-name: Flutter CI
+name: Flutter CI test
 
 # Déclenche le workflow sur les pull_request
 # pour les branches spécifiées : main, dev** et release/**
