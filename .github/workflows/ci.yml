@@ -42,7 +42,8 @@ jobs:
       - name: Run tests
         run: flutter test
   
-  builds:
+  Builds:
+    needs: Analyse-et-tests
     # Définit une matrice pour exécuter le job sur plusieurs systèmes d'exploitation
     runs-on: ${{ matrix.os }}
     strategy:
