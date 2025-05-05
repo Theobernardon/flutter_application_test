@@ -1,4 +1,4 @@
-Rédige selon le template suivant en remplaçant ce qu'il y a entre {description} Par les informations issues de la pull request
+Le test n'est pas fructueux et j'ai donc changé les paramètres A voir quand ce sera plus au point
 
 # **Template:**
 ## **Description**  
