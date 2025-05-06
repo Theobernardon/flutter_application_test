@@ -13,9 +13,10 @@ on:
 jobs:
   # Dans un premier temps on fait l'analyse du code et les tests unitaires
   Analyse-et-tests:
+    name: Analyse et tests
     uses: Theobernardon/theo-flutter/.github/workflows/test-flutter.yml@test
 
-  # Ensuite on build les plateformes spécifiées dans le workflow appelant
+  # Ensuite on build l'application pour les plateformes spécifiées
   Call:
     needs: Analyse-et-tests
     uses: Theobernardon/theo-flutter/.github/workflows/builds.yml@test
