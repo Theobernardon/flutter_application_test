@@ -18,7 +18,6 @@ jobs:
 
   # Ensuite on build l'application pour les plateformes spécifiées
   Builds:
-    name: 🚀
     needs: Analyse-et-tests
     uses: Theobernardon/theo-flutter/.github/workflows/builds.yml@test
     with:
