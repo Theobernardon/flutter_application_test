@@ -15,6 +15,7 @@ jobs:
   Analyse-et-tests:
     uses: Theobernardon/theo-flutter/.github/workflows/test-flutter.yml@test
 
+  # Ensuite on build les plateformes spécifiées dans le workflow appelant
   Call:
     needs: Analyse-et-tests
     uses: Theobernardon/theo-flutter/.github/workflows/builds.yml@test
