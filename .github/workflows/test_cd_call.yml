@@ -1,0 +1,29 @@
+name: Flutter CD test
+on:
+  push:
+    tags:
+      - "v*.*"
+  workflow_dispatch:
+  # Permet de déclencher manuellement le workflow depuis l'interface GitHub
+
+jobs:
+  # Dans un premier temps on fait l'analyse du code et les tests unitaires
+  Analyse-et-tests:
+    uses: Theobernardon/theo-flutter/.github/workflows/test-flutter.yml@test
+
+  # Ensuite on build l'application pour les plateformes spécifiées
+  Builds:
+    needs: Analyse-et-tests
+    uses: Theobernardon/theo-flutter/.github/workflows/builds.yml@test
+    with:
+      # Liste des plateformes à builder
+      platforms: windows, linux
+      release: true # Si true, on build en release, sinon en debug
+
+  # Ensuite on fait le build de l'application pour les plateformes spécifiées
+  Release:
+    needs: Builds
+    uses: Theobernardon/theo-flutter/.github/workflows/release.yml@test
+    with:
+      # Liste des plateformes à builder
+      platforms: windows, linux
