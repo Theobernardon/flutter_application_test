@@ -30,6 +30,6 @@ jobs:
       # Liste des plateformes à builder
       platforms: windows, linux
     secrets:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # GITHUB_TOKEN est une variable d'environnement secrète fournie par GitHub Actions pour authentifier les requêtes API
       # et permettre l'accès aux fonctionnalités de GitHub, comme la création de releases.
