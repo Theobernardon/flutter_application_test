@@ -20,4 +20,4 @@ jobs:
     uses: Theobernardon/theo-flutter/.github/workflows/builds.yml@test
     with:
       # Liste des plateformes à builder
-      platforms: "['windows', 'linux', 'apk', 'web']"
+      platforms: windows, linux, apk, web
