@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(const MyApp());
 }
-
+// modif quelconque pour test action
 /// This is the main application widget.
 /// It is a stateless widget that builds the main structure of the app.
 class MyApp extends StatelessWidget {
