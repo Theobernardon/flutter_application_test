@@ -12,17 +12,6 @@ permissions:
   contents: write
       
 jobs:
-  debug-vars:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Afficher les valeurs de contexte GitHub
-        run: |
-          echo "github.ref: ${{ github.ref }}"
-          echo "github.ref_name: ${{ github.ref_name }}"
-          echo "github.head_ref: ${{ github.head_ref }}"
-          echo "github.base_ref: ${{ github.base_ref }}"
-          echo "github.event_name: ${{ github.event_name }}"
-          echo "head_commit.message: ${{ github.event.head_commit.message }}"
   version: 
     uses: Theobernardon/theo-flutter/.github/workflows/majpubspec.yml@main
     with:
