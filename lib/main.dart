@@ -4,7 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
-// modif quelconque pour test action 1
+// modif quelconque pour test action 2
 /// This is the main application widget.
 /// It is a stateless widget that builds the main structure of the app.
 class MyApp extends StatelessWidget {
