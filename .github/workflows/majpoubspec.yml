@@ -22,6 +22,7 @@ jobs:
           echo "github.head_ref: ${{ github.head_ref }}"
           echo "github.base_ref: ${{ github.base_ref }}"
           echo "github.event_name: ${{ github.event_name }}"
+          echo " ${{ toJson(github)}}"
   version: 
     uses: Theobernardon/theo-flutter/.github/workflows/majpubspec.yml@main
     with:
