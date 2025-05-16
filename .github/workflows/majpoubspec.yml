@@ -1,0 +1,20 @@
+name: Update version pubspec
+
+on:
+  push:
+    branches:
+      - develop
+      - release**
+    paths:
+      - lib/**
+
+permissions:
+  contents: write
+      
+jobs:
+  version: 
+    uses: Theobernardon/theo-flutter/.github/workflows/majpubspec.yml@main
+    with:
+      branch: ${{ github.head_ref }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
