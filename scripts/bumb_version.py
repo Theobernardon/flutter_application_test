@@ -1,15 +1,19 @@
 import yaml
 import sys
 
+print("Bumping version...")
 file_path = "pubspec.yaml"
 version_type = sys.argv[1]  # minor / patch / build
 
-with open(file_path, 'r') as f:
+print(f"Version type: {version_type}")
+print()
+print("seching pubspec.yaml...")
+with open(file_path, "r") as f:
     data = yaml.safe_load(f)
 
-version = data['version']
-semver, build = version.split('+')
-major, minor, patch = map(int, semver.split('.'))
+version = data["version"]
+semver, build = version.split("+")
+major, minor, patch = map(int, semver.split("."))
 build = int(build)
 
 # MINOR
@@ -21,7 +25,7 @@ if version_type == "minor":
     patch = 0
     build = 0
 # PATCH
-# Changé quand tu fais des corrections de bugs, optimisations, 
+# Changé quand tu fais des corrections de bugs, optimisations,
 # ou des petits changements internes sans impact fonctionnel.
 # Exemple : de 1.3.0+0 → 1.3.1+0
 elif version_type == "patch":
@@ -37,7 +41,7 @@ elif version_type == "build":
 else:
     raise ValueError("Invalid version type")
 
-data['version'] = f"{major}.{minor}.{patch}+{build}"
+data["version"] = f"{major}.{minor}.{patch}+{build}"
 
-with open(file_path, 'w') as f:
+with open(file_path, "w") as f:
     yaml.dump(data, f, sort_keys=False)
