@@ -1,7 +1,8 @@
 name: Update version pubspec
 
 on:
-  push:
+  pull_request:
+    types: opened
     branches:
       - develop
       - release**
@@ -15,6 +16,6 @@ jobs:
   version: 
     uses: Theobernardon/theo-flutter/.github/workflows/majpubspec.yml@main
     with:
-      commit_message: ${{ github.event.head_commit.message }}
+      commit_message: ${{ github.head_ref }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
