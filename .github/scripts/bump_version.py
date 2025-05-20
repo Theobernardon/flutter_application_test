@@ -2,12 +2,11 @@ import yaml
 import sys
 
 print("Bumping version...")
+
 file_path = "pubspec.yaml"
 version_type = sys.argv[1]  # minor / patch / build
-
 print(f"Version type: {version_type}")
-print()
-print("seching pubspec.yaml...")
+
 with open(file_path, "r") as f:
     data = yaml.safe_load(f)
 
@@ -42,6 +41,7 @@ else:
     raise ValueError("Invalid version type")
 
 data["version"] = f"{major}.{minor}.{patch}+{build}"
+print(f"New version: {data['version']}")
 
 with open(file_path, "w") as f:
     yaml.dump(data, f, sort_keys=False)
