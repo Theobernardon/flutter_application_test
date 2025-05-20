@@ -7,7 +7,7 @@ version_type = sys.argv[1]  # minor / patch / build
 
 print(f"Version type: {version_type}")
 print()
-print("seching pubspec.yaml...")
+("seching pubspec.yaml...")
 with open(file_path, "r") as f:
     data = yaml.safe_load(f)
 
