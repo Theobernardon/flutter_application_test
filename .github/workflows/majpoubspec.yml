@@ -16,6 +16,6 @@ jobs:
   version: 
     uses: Theobernardon/theo-flutter/.github/workflows/majpubspec.yml@main
     with:
-      commit_message: ${{ github.head_ref }}
+      branch_name: ${{ github.head_ref }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
